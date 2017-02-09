@@ -6,13 +6,18 @@ import java.io.IOException;
 public class Controller {
 
     public static void main (String [] args) {
-        System.out.println("hello world");
         char[][] arr = new char[7][7];
         try {
             arr = MyFileReader.getInstance().returnArray(args[0]);
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
+        e.printStackTrace();
     }
+
+        Algo gameCtrl = new Algo(arr);
+        System.out.println(gameCtrl.isValidMove(0,0,'l'));
+
+
+
+    }
+
 }
