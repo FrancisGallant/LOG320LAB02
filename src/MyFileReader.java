@@ -32,7 +32,10 @@ public class MyFileReader {
         for(int i =0; i < ARR_HEIGHT ; i++){
             if( (s = buffer.readLine()) != null){
                 for(int j = 0 ; j < ARR_WIDTH ; j++){
-                    arr[i][j] = s.charAt(j);
+                    if(s.charAt(j) != '0'){
+                        //TODO
+                    }
+
                 }
             }
         }
