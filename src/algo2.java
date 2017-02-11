@@ -10,10 +10,31 @@ public class algo2 {
         noList = list;
     }
 
-    void findSolution(Node courant, DirectionList directions){
-        //TODO
-        if(noList.numberOfFull != 1 && ){
+    /*
+    boolean solve(NodeList list, ArrayList<Movement> finalPath){
 
+        if(list.numberOfFull == 1){
+            return true;
+        }
+        // GET ALL LEGIT MOVES
+
+        // FOR EACH MOVE IN LISTLEGITMOVES
+        // IF MOVEVALID
+        // DO MOVE
+        // AJOUTE MOVE AU finalPath
+        // if( solve( list, finalPath) return true
+
+        //else finalPath.remove(lastMove)
+
+        return false;
+    }
+    */
+
+    /*
+    boolean findSolution(Node courant, DirectionList directions){
+        //TODO
+        if(noList.numberOfFull == 1 ){
+            return true;
         }
         Movement move = noList.findValidMovement(mList);
         if(move == null){
@@ -28,7 +49,8 @@ public class algo2 {
             findSolution();
         }
 
-    }
+    }*/
+
 
 
 }

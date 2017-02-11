@@ -7,6 +7,7 @@ public class Controller {
 
     public static void main (String [] args) {
         char[][] arr = new char[7][7];
+        boolean found;
         try {
             arr = MyFileReader.getInstance().returnArray(args[0]);
         } catch (IOException e) {
@@ -14,8 +15,20 @@ public class Controller {
     }
 
         Algo gameCtrl = new Algo(arr);
-        System.out.println(gameCtrl.isValidMove(0,0,'l'));
+        gameCtrl.printArr(gameCtrl.gameArray);
+        found = gameCtrl.recursiveAlgo(1,gameCtrl.solutionBoard);
+        System.out.println(found);
+        gameCtrl.printArr(gameCtrl.gameArray);
+        //gameCtrl.printAllBoard();
+        System.out.println(gameCtrl.numberOfNodesVisited);
 
+        /*
+        Algo3 al = new Algo3(arr);
+        al.printArr(al.gameBoard);
+        al.allPossibleMove = al.findAllPossibleMove(al.gameBoard);
+        System.out.println(al.allPossibleMove.size());
+
+        */
 
 
     }

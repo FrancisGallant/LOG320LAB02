@@ -1,12 +1,12 @@
 /**
  * Created by Francis on 2017-02-11.
  */
-public class Position {
+public class Move {
 
     private int x;
     private int y;
 
-    public Position(int x, int y){
+    public Move(int x, int y){
         this.x = x;
         this.y = y;
     }

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -32,14 +33,33 @@ public class MyFileReader {
         for(int i =0; i < ARR_HEIGHT ; i++){
             if( (s = buffer.readLine()) != null){
                 for(int j = 0 ; j < ARR_WIDTH ; j++){
-                    if(s.charAt(j) != '0'){
-                        //TODO
-                    }
-
+                    arr[i][j] = s.charAt(j);
                 }
             }
         }
         return arr;
+    }
+
+    public ArrayList<Node> returnNodeList(String fileName) throws IOException{
+        ArrayList<Node> arr = new ArrayList<>();
+        BufferedReader buffer = new BufferedReader(
+                new FileReader(fileName));
+        String s;
+        for(int i =0; i < ARR_HEIGHT ; i++){
+            if( (s = buffer.readLine()) != null){
+                for(int j = 0 ; j < ARR_WIDTH ; j++){
+                    char val = s.charAt(j);
+                    if(val != '0'){
+                        Node newNode = new Node(val);
+                    }
+                }
+            }
+        }
+        return arr;
+    }
+
+    public void linkNode(Node n){
+
     }
 
 
