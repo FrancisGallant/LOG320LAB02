@@ -5,10 +5,14 @@ public class Move {
 
     private int x;
     private int y;
+    private int originX;
+    private int originY;
 
-    public Move(int x, int y){
+    public Move(int x, int y, int originX, int originY){
         this.x = x;
         this.y = y;
+        this.originX = originX;
+        this.originY = originY;
     }
 
     public int getX() {
@@ -25,5 +29,21 @@ public class Move {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getOriginX() {
+        return originX;
+    }
+
+    public void setOriginX(int originX) {
+        this.originX = originX;
+    }
+
+    public int getOriginY() {
+        return originY;
+    }
+
+    public void setOriginY(int originY) {
+        this.originY = originY;
     }
 }

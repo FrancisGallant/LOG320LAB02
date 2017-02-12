@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -49,7 +50,6 @@ public class Algo {
         if(numberOfFilledSpace == 1){
             return true;
         }
-
         for(int i = 0 ; i < 7 && depth <= maxDepth ; i++){
             for( int j = 0 ; j < 7 ; j++ ){
                 for(int k = 0 ; k < 4 ; k++){
