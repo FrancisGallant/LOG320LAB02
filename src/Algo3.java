@@ -92,7 +92,7 @@ public class Algo3 {
             //currenGameBoard = unmove(currenGameBoard, move);
         }
         else {
-            printArr(currenGameBoard);
+            //printArr(currenGameBoard);
         }
         return false;
     }
