@@ -10,18 +10,25 @@ public class Algo3 {
     public ArrayList<Move> solutionMoves;
     public int numberOfPegs;
     public int maxNumOfPegs;
-    public Hashtable badBoard;
+    public ArrayList badBoard;
     public int nbrVisitedNodes;
     public int val = 0;
+    public char[][] initialBoard;
 
     public Algo3(char[][] arr){
         gameBoard = arr;
         nbrVisitedNodes = 0;
-
         countNumberOfPegs();
         allPossibleMove = new ArrayList<>();
         solutionMoves = new ArrayList<>();
-        badBoard = new Hashtable();
+        badBoard = new ArrayList();
+        initialBoard = new char[][]{{'0','0','1','1','1','0','0'},
+                {'0','0','1','1','1','0','0'},
+                {'1','1','1','1','1','1','1'},
+                {'1','1','1','2','1','1','1'},
+                {'1','1','1','1','1','1','1'},
+                {'0','0','1','1','1','0','0'},
+                {'0','0','1','1','1','0','0'}};
     }
 
 
@@ -31,16 +38,16 @@ public class Algo3 {
             for (int j = 0; j < 7; j++) {
                 if(gameBoard[i][j] == '1'){
                     if(j < 5 && gameBoard[i][j+2] == '2' && gameBoard[i][j+1] == '1'){
-                        arr.add(new Move(0,2,i,j));
+                        arr.add(new Move(0,2,i,j)); //RIGHT
                     }
                     else if(i < 5 && gameBoard[i+2][j] == '2' && gameBoard[i+1][j] == '1'){
-                        arr.add(new Move(2,0,i,j));
+                        arr.add(new Move(2,0,i,j)); //DOWN
                     }
                     else if( i >= 2 && gameBoard[i-2][j] == '2' && gameBoard[i-1][j] == '1'){
-                        arr.add(new Move(-2,0,i,j));
+                        arr.add(new Move(-2,0,i,j)); //UP
                     }
                     else if(j >= 2 && gameBoard[i][j-2] == '2' && gameBoard[i][j-1] == '1'){
-                        arr.add(new Move(0,-2,i,j));
+                        arr.add(new Move(0,-2,i,j)); //LEFT
                     }
                 }
             }
@@ -49,29 +56,44 @@ public class Algo3 {
         return arr;
     }
 
-    public boolean solvePuzzle(char[][] currenGameBoard, Hashtable badBoard , int depth , ArrayList<Move> solution ){
+    public void printAllBoard(){
+        printArr(this.initialBoard);
+        System.out.println('\n');
+
+        for(Move move : this.solutionMoves){
+            System.out.println("origin: " + move.getX() + " " + move.getOriginY() + " movement: " + move.getX() + " " +
+            move.getY());
+            this.initialBoard = move(initialBoard, move);
+            printArr(this.initialBoard);
+            System.out.println('\n');
+        }
+    }
+
+    public boolean solvePuzzle(char[][] currenGameBoard , ArrayList<Move> solution ){
         if(checkSolution(currenGameBoard) && solution.size() <=maxNumOfPegs){
             return true;
         }
-
+        if(this.badBoard.contains(currenGameBoard)){
+            return false;
+        }
         allPossibleMove = findAllPossibleMove(currenGameBoard);
         for(Move move : allPossibleMove){
             currenGameBoard = move(currenGameBoard,move);
-            if(!badBoard.containsValue(currenGameBoard)) {
-                nbrVisitedNodes++;
-                solution.add(move);
-                if (solvePuzzle(currenGameBoard, badBoard, depth + 1, solution)) {
-                    return true;
-                }
-                else {
-                    //System.out.println("GOING IN BADBOARD");
-                    //badBoard.put(val++,currenGameBoard);
-                    currenGameBoard = unmove(currenGameBoard, move);
-                    solution.remove(solution.size() - 1);
-                }
+           /* if(badBoard.containsValue(currenGameBoard)) {
+                currenGameBoard = unmove(currenGameBoard,move);
+                continue;
+
+            }*/
+            nbrVisitedNodes++;
+            solution.add(move);
+            if (solvePuzzle(currenGameBoard, solution)) {
+                return true;
             }
-            currenGameBoard = unmove(currenGameBoard,move);
+            currenGameBoard = unmove(currenGameBoard, move);
+            solution.remove(solution.size() - 1);
+
         }
+        //this.badBoard.add(currenGameBoard);
         return false;
     }
 
