@@ -26,7 +26,7 @@ public class Controller {
 
         Algo3 al = new Algo3(arr);
         al.printArr(al.gameBoard);
-        found = al.solvePuzzle(al.gameBoard,al.badBoard,1,al.solutionMoves);
+        found = al.solvePuzzle(al.gameBoard,1,al.solutionMoves);
         System.out.println(found);
         for(int i = 0 ; i < al.solutionMoves.size() ; i++){
             System.out.println(al.solutionMoves.get(i).getX() + " " + al.solutionMoves.get(i).getY() );

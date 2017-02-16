@@ -27,10 +27,28 @@ public class Algo {
         badBoard = new ArrayList();
         possibleDirection = new ArrayList();
         allPossibleMoves = new ArrayList<>();
-        possibleDirection.add('l');
-        possibleDirection.add('r');
         possibleDirection.add('u');
+        possibleDirection.add('l');
         possibleDirection.add('d');
+        possibleDirection.add('r');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 

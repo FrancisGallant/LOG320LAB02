@@ -6,11 +6,12 @@ import java.util.*;
 public class Algo3 {
 
     public char[][] gameBoard;
-    public ArrayList<Move> allPossibleMove;
+
     public ArrayList<Move> solutionMoves;
+
     public int numberOfPegs;
     public int maxNumOfPegs;
-    public Hashtable badBoard;
+    public ArrayList<char[][]> badBoard;
     public int nbrVisitedNodes;
     public int val = 0;
 
@@ -19,9 +20,9 @@ public class Algo3 {
         nbrVisitedNodes = 0;
 
         countNumberOfPegs();
-        allPossibleMove = new ArrayList<>();
+
         solutionMoves = new ArrayList<>();
-        badBoard = new Hashtable();
+        badBoard = new ArrayList<char[][]>();
     }
 
 
@@ -30,18 +31,29 @@ public class Algo3 {
         for(int i = 0; i < 7 ; i++) {
             for (int j = 0; j < 7; j++) {
                 if(gameBoard[i][j] == '1'){
-                    if(j < 5 && gameBoard[i][j+2] == '2' && gameBoard[i][j+1] == '1'){
-                        arr.add(new Move(0,2,i,j));
-                    }
-                    else if(i < 5 && gameBoard[i+2][j] == '2' && gameBoard[i+1][j] == '1'){
-                        arr.add(new Move(2,0,i,j));
-                    }
-                    else if( i >= 2 && gameBoard[i-2][j] == '2' && gameBoard[i-1][j] == '1'){
-                        arr.add(new Move(-2,0,i,j));
-                    }
-                    else if(j >= 2 && gameBoard[i][j-2] == '2' && gameBoard[i][j-1] == '1'){
+                    if(j >= 2 && gameBoard[i][j-2] == '2' && gameBoard[i][j-1] == '1')
+                    {
                         arr.add(new Move(0,-2,i,j));
                     }
+                    if(i < 5 && gameBoard[i+2][j] == '2' && gameBoard[i+1][j] == '1')
+                    {
+                        arr.add(new Move(2,0,i,j));
+                    }
+                    if(j < 5 && gameBoard[i][j+2] == '2' && gameBoard[i][j+1] == '1')
+                    {
+                        arr.add(new Move(0,2,i,j));
+                    }
+
+                    if( i >= 2 && gameBoard[i-2][j] == '2' && gameBoard[i-1][j] == '1')
+                    {
+                        arr.add(new Move(-2,0,i,j));
+                    }
+
+
+
+
+
+
                 }
             }
         }
@@ -49,33 +61,82 @@ public class Algo3 {
         return arr;
     }
 
-    public boolean solvePuzzle(char[][] currenGameBoard, Hashtable badBoard , int depth , ArrayList<Move> solution ){
-        if(checkSolution(currenGameBoard) && solution.size() <=maxNumOfPegs){
+    public boolean solvePuzzle(char[][] currenGameBoard , int depth , ArrayList<Move> solution ) {
+        if (checkSolution(currenGameBoard) && solution.size() <= maxNumOfPegs) {
             return true;
         }
 
-        allPossibleMove = findAllPossibleMove(currenGameBoard);
-        for(Move move : allPossibleMove){
-            currenGameBoard = move(currenGameBoard,move);
-            if(!badBoard.containsValue(currenGameBoard)) {
+        ArrayList<Move> allPossibleMove = findAllPossibleMove(currenGameBoard);
+        if (!contains(badBoard,currenGameBoard)) {
+            for (Move move : allPossibleMove) {
+                currenGameBoard = move(currenGameBoard, move);
+
                 nbrVisitedNodes++;
                 solution.add(move);
-                if (solvePuzzle(currenGameBoard, badBoard, depth + 1, solution)) {
+                if (solvePuzzle(currenGameBoard, depth + 1, solution)) {
                     return true;
-                }
-                else {
-                    //System.out.println("GOING IN BADBOARD");
-                    //badBoard.put(val++,currenGameBoard);
+                } else {
+                    //System.out.println(allPossibleMove.size());
+
+
                     currenGameBoard = unmove(currenGameBoard, move);
                     solution.remove(solution.size() - 1);
                 }
             }
-            currenGameBoard = unmove(currenGameBoard,move);
+
+            badBoard.add(val++, copy(currenGameBoard));
+
+            //printBadboard();
+            //System.out.println("");
+
+            //currenGameBoard = unmove(currenGameBoard, move);
+        }
+        else {
+            printArr(currenGameBoard);
         }
         return false;
     }
+    public char[][] copy (char[][] charArr){
+        char[][] tempBoard = new char[7][7];
+        for(int i=0;i<7;i++){
+            for(int j=0;j<7;j++){
 
+                tempBoard[i][j] = charArr[i][j];
+            }
+        }
+         return tempBoard;
 
+    }
+    public void printBadboard(){
+        for(int i=0;i<badBoard.size();i++){
+            printArr(badBoard.get(i));
+        }
+    }
+    public boolean contains(ArrayList<char[][]> arrayList, char[][] arr){
+
+        for(int k=0;k<arrayList.size();k++)
+        {
+            char[][] arr2 = arrayList.get(k);
+            boolean aresame = true;
+            for(int i=0;i < arr2.length;i++){
+
+                for(int j=0;j < arr2[i].length;j++){
+                    if(arr[i][j] != arr2[i][j]){
+
+                        aresame = false;
+                    }
+                }
+
+            }
+            if(aresame)
+            {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
     public boolean checkSolution(char[][] currBoard){
         int count = 0;
         for(int i = 0 ; i < 7 ; i++){
