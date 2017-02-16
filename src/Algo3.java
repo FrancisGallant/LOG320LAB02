@@ -18,9 +18,7 @@ public class Algo3 {
     public Algo3(char[][] arr){
         gameBoard = arr;
         nbrVisitedNodes = 0;
-
         countNumberOfPegs();
-
         solutionMoves = new ArrayList<>();
         badBoard = new ArrayList<char[][]>();
     }
@@ -48,54 +46,45 @@ public class Algo3 {
                     {
                         arr.add(new Move(-2,0,i,j));
                     }
-
-
-
-
-
-
                 }
             }
         }
-        //Collections.shuffle(arr);
         return arr;
     }
 
-    public boolean solvePuzzle(char[][] currenGameBoard , int depth , ArrayList<Move> solution ) {
-        if (checkSolution(currenGameBoard) && solution.size() <= maxNumOfPegs) {
+    public boolean solvePuzzle(char[][] currenGameBoard , ArrayList<Move> solution ) {
+        if (checkSolution(currenGameBoard) ) {
             return true;
+        }
+        if(contains(badBoard,currenGameBoard)){
+            return false;
         }
 
         ArrayList<Move> allPossibleMove = findAllPossibleMove(currenGameBoard);
-        if (!contains(badBoard,currenGameBoard)) {
             for (Move move : allPossibleMove) {
                 currenGameBoard = move(currenGameBoard, move);
-
                 nbrVisitedNodes++;
                 solution.add(move);
-                if (solvePuzzle(currenGameBoard, depth + 1, solution)) {
+                if (solvePuzzle(currenGameBoard, solution)) {
                     return true;
                 } else {
-                    //System.out.println(allPossibleMove.size());
-
-
                     currenGameBoard = unmove(currenGameBoard, move);
                     solution.remove(solution.size() - 1);
                 }
             }
 
             badBoard.add(val++, copy(currenGameBoard));
-
-            //printBadboard();
-            //System.out.println("");
-
-            //currenGameBoard = unmove(currenGameBoard, move);
-        }
-        else {
-            //printArr(currenGameBoard);
-        }
         return false;
     }
+
+    public void printSolutionBoard(char[][] finalBoard){
+        for(int i = this.solutionMoves.size()-1 ; i > 0 ; i--){
+            System.out.println('\n');
+            finalBoard = unmove(finalBoard, this.solutionMoves.get(i));
+            printArr(finalBoard);
+        }
+    }
+
     public char[][] copy (char[][] charArr){
         char[][] tempBoard = new char[7][7];
         for(int i=0;i<7;i++){
@@ -106,11 +95,6 @@ public class Algo3 {
         }
          return tempBoard;
 
-    }
-    public void printBadboard(){
-        for(int i=0;i<badBoard.size();i++){
-            printArr(badBoard.get(i));
-        }
     }
     public boolean contains(ArrayList<char[][]> arrayList, char[][] arr){
 
@@ -180,7 +164,6 @@ public class Algo3 {
             currentGameBoard[m.getOriginX()][m.getOriginY() +1] = '2';
             currentGameBoard[m.getOriginX()][m.getOriginY() +2] = '1';
         }
-        //numberOfPegs --;
         return currentGameBoard;
     }
 
@@ -210,7 +193,6 @@ public class Algo3 {
             currentGameBoard[m.getOriginX()][m.getOriginY() +1] = '1';
             currentGameBoard[m.getOriginX()][m.getOriginY() +2] = '2';
         }
-        //numberOfPegs ++;
         return currentGameBoard;
     }
 
